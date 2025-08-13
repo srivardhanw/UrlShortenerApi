@@ -1,4 +1,5 @@
 ﻿using AuthExample.Models;
+using UrlShortener.BackgroundServices;
 using UrlShortener.DTOs.Request;
 using UrlShortener.DTOs.Response;
 using UrlShortener.RepositoryContracts;
@@ -13,12 +14,14 @@ namespace UrlShortener.Services
         private readonly IAnalyticsService _analyticsService;
         private readonly IGeolocationService _geolocationService;
         private readonly IServiceProvider _serviceProvider;
-        public ShortenService(ICreationRepository creationRepository, IAnalyticsService analyticsService, IGeolocationService geolocationService, IServiceProvider serviceProvider)
+        private readonly IBackgroundAnalyticsQueue _backgroundAnalyticsQueue;
+        public ShortenService(ICreationRepository creationRepository, IAnalyticsService analyticsService, IGeolocationService geolocationService, IServiceProvider serviceProvider, IBackgroundAnalyticsQueue backgroundAnalyticsQueue)
         {
             _creationRepository = creationRepository;
             _analyticsService = analyticsService;
             _geolocationService = geolocationService;
             _serviceProvider = serviceProvider;
+            _backgroundAnalyticsQueue = backgroundAnalyticsQueue;
         }
 
         public async Task<ShortResponseDTO> GetShortUrl(int UserId, OriginalRequestDTO req)
@@ -54,17 +57,16 @@ namespace UrlShortener.Services
             var creation = await _creationRepository.GetOriginalUrlFromShortId(shortId);
             if(creation != null)
             {
-                _ = Task.Run(async () =>
+                await _backgroundAnalyticsQueue.EnqueueAsync(async (sp, ct) =>
                 {
-                    using (var scope = _serviceProvider.CreateScope())
-                    {
-                        var geoService = scope.ServiceProvider.GetRequiredService<IGeolocationService>();
-                        var analyticsService = scope.ServiceProvider.GetRequiredService<IAnalyticsService>();
-                        var geolocation = await geoService.GetGeolocationAsync(ip);
-                        analyticsService.InsertAnalytics(creation.Id, deviceType, geolocation);
-                    }
+                    var geoService = sp.GetRequiredService<IGeolocationService>();
+                    var analyticsService = sp.GetRequiredService<IAnalyticsService>();
+
+                    var geolocation = await geoService.GetGeolocationAsync(ip);
+
+                    analyticsService.InsertAnalytics(creation.Id, deviceType, geolocation);
                 });
-                
+
             }
             var res = new OriginalResponseDTO
             {

@@ -4,6 +4,6 @@ namespace UrlShortener.RepositoryContracts
 {
     public interface IAnalyticsRepository
     {
-        public void AddNewAnalytics(AnalyticsPre analyticsPre);
+        public void AddNewAnalytics(Analytics analyticsPre);
     }
 }

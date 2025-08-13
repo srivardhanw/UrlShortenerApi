@@ -280,3 +280,4 @@ C:\Users\iGuru\Desktop\AAAMT\UrlShortenerApi\UrlShortener\obj\Debug\net8.0\refin
 C:\Users\iGuru\Desktop\AAAMT\UrlShortenerApi\UrlShortener\obj\Debug\net8.0\UrlShortener.pdb
 C:\Users\iGuru\Desktop\AAAMT\UrlShortenerApi\UrlShortener\obj\Debug\net8.0\UrlShortener.genruntimeconfig.cache
 C:\Users\iGuru\Desktop\AAAMT\UrlShortenerApi\UrlShortener\obj\Debug\net8.0\ref\UrlShortener.dll
+C:\Users\iGuru\Desktop\AAAMT\UrlShortenerApi\UrlShortener\obj\Debug\net8.0\UrlShortener.sourcelink.json

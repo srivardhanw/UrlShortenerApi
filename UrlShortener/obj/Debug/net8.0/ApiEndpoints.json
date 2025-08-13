@@ -78,5 +78,15 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UrlShortener.Controllers.DashboardController",
+    "Method": "GetMyLinks",
+    "RelativePath": "api/Dashboard/myLinks",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   }
 ]

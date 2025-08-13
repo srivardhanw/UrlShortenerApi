@@ -1,10 +1,12 @@
 
+using DeviceDetectorNET.Parser.Device;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Data;
 using System.Text;
+using UrlShortener.BackgroundServices;
 using UrlShortener.Repositories;
 using UrlShortener.RepositoryContracts;
 using UrlShortener.ServiceContracts;
@@ -40,11 +42,14 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"])) // Your secret key from appsettings.json
+            Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"])) // Your secret key
     };
 });
 
 // SERVICES START
+builder.Services.AddSingleton<IBackgroundAnalyticsQueue>( _ = new BackgroundAnalyticsQueue(capacity: 500) );
+builder.Services.AddHostedService<QueuedWorker>();
+
 builder.Services.AddScoped<IDbConnection>(sp =>
     new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection"))); // to get ready to use Sql Connection wherever needed
 
@@ -72,58 +77,20 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
-
 {
-
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Employee API", Version = "v1" });
-
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-
     {
-
         In = ParameterLocation.Header,
-
-        Description = "Please enter token",
-
+        Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
         Name = "Authorization",
-
         Type = SecuritySchemeType.Http,
-
-        BearerFormat = "JWT",
-
-        Scheme = "Bearer"
-
+        Scheme = "bearer",
+        BearerFormat = "JWT"
     });
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-
-    {
-
-        {
-
-            new OpenApiSecurityScheme
-
-            {
-
-                Reference = new OpenApiReference
-
-                {
-
-                    Type = ReferenceType.SecurityScheme,
-
-                    Id = "Bearer"
-
-                }
-
-            },
-
-            new string[] {}
-
-        }
-
-    });
-
+    c.OperationFilter<AuthorizeCheckOperationFilter>();
 });
+
 
 builder.Services.AddSwaggerGen();
 

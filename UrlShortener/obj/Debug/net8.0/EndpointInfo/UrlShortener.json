@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Employee API",
-    "version": "v1"
+    "title": "UrlShortener",
+    "version": "1.0"
   },
   "paths": {
     "/api/Auth/signup": {
@@ -95,7 +95,12 @@
           "200": {
             "description": "OK"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
       }
     },
     "/api/Creation/RedirectToOriginal/{ShortId}": {
@@ -140,6 +145,23 @@
             "description": "OK"
           }
         }
+      }
+    },
+    "/api/Dashboard/myLinks": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
       }
     }
   },
@@ -211,15 +233,10 @@
     "securitySchemes": {
       "Bearer": {
         "type": "http",
-        "description": "Please enter token",
-        "scheme": "Bearer",
+        "description": "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
+        "scheme": "bearer",
         "bearerFormat": "JWT"
       }
     }
-  },
-  "security": [
-    {
-      "Bearer": [ ]
-    }
-  ]
+  }
 }

@@ -17,7 +17,7 @@ namespace UrlShortener.Services
 
         public void InsertAnalytics(int UrlId, string deviceType, GeolocationDTO geolocation)
         {
-            AnalyticsPre analytics = new AnalyticsPre
+            Analytics analytics = new Analytics
             {
                 Country = geolocation.Country,
                 City = geolocation.City,

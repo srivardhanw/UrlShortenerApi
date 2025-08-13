@@ -13,7 +13,7 @@ namespace UrlShortener.Repositories
         {
             _dbConnection = dbConnection;
         }
-        public void AddNewAnalytics(AnalyticsPre analyticsPre)
+        public void AddNewAnalytics(Analytics analytics)
         {
             var query = @"INSERT INTO Analytics (CountryId, CityId, DeviceTypeId, ClickedAt, UrlId)
                         VALUES ((SELECT CountryId FROM CountryMaster WHERE CountryMaster.CountryName = @Country), 
@@ -24,15 +24,15 @@ namespace UrlShortener.Repositories
 
             _dbConnection.Execute(query, new
             {
-                Country = analyticsPre.Country,
-                City = analyticsPre.City,
-                DeviceType = analyticsPre.DeviceType,
-                ClickedAt = analyticsPre.ClickedAt,
-                UrlId = analyticsPre.UrlId
+                Country = analytics.Country,
+                City = analytics.City,
+                DeviceType = analytics.DeviceType,
+                ClickedAt = analytics.ClickedAt,
+                UrlId = analytics.UrlId
             });
 
 
-            
+
         }
     }
 }
