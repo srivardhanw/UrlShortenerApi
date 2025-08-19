@@ -63,7 +63,7 @@ builder.Services.AddScoped<ICreationRepository, CreationRepository>();
 
 builder.Services.AddHttpClient();
 
-builder.Services.AddScoped<IShortenService, ShortenService>();
+builder.Services.AddScoped<IUrlService, UrlService>();
 
 builder.Services.AddScoped<IGeolocationService, GeolocationService>();
 

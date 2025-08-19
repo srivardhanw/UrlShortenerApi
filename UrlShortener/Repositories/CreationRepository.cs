@@ -47,5 +47,14 @@ namespace UrlShortener.Repositories
             return OriginalUrl; 
 
         }
+
+        public async Task<List<Creation>> GetUrlsByUserId(int CreatedBy)
+        {
+            var query = @"SELECT * FROM Creation
+                          WHERE CreatedBy = @CreatedBy";
+
+            List<Creation> creations = (await _dbConnection.QueryAsync<Creation>(query, new {CreatedBy =  CreatedBy})).ToList();
+            return creations;
+        }
     }
 }

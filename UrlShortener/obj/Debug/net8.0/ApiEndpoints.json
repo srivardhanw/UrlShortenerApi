@@ -33,6 +33,22 @@
   },
   {
     "ContainingType": "UrlShortener.Controllers.CreationController",
+    "Method": "DeleteUrl",
+    "RelativePath": "api/Creation/DeleteUrl",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UrlId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UrlShortener.Controllers.CreationController",
     "Method": "GeolocationTest",
     "RelativePath": "api/Creation/GetGeolocation/{IpAddress}",
     "HttpMethod": "GET",
@@ -81,8 +97,8 @@
   },
   {
     "ContainingType": "UrlShortener.Controllers.DashboardController",
-    "Method": "GetMyLinks",
-    "RelativePath": "api/Dashboard/myLinks",
+    "Method": "GetAllMyUrls",
+    "RelativePath": "api/Dashboard/GetMyUrls",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

@@ -16,10 +16,10 @@ namespace UrlShortener.Controllers
     
     public class CreationController : ControllerBase
     {
-        private readonly IShortenService _shortenService;
+        private readonly IUrlService _urlService;
         private readonly IGeolocationService _geolocationService;
-        public CreationController(IShortenService shortenService, IGeolocationService geolocationService) {
-            _shortenService = shortenService;
+        public CreationController(IUrlService urlService, IGeolocationService geolocationService) {
+            _urlService = urlService;
             _geolocationService = geolocationService;
         }
         [HttpPost]
@@ -37,7 +37,7 @@ namespace UrlShortener.Controllers
             
             try
             {
-                var res = await _shortenService.GetShortUrl(userId, req);
+                var res = await _urlService.GetShortUrl(userId, req);
                 return Ok(res);
             }
             catch(Exception err)
@@ -61,7 +61,7 @@ namespace UrlShortener.Controllers
            
             try
             {
-                var res = await _shortenService.GetLongUrl(ShortId, deviceType, ip);
+                var res = await _urlService.GetLongUrl(ShortId, deviceType, ip);
                 return Ok(res);
             }
             catch(SqlException err)
@@ -78,25 +78,17 @@ namespace UrlShortener.Controllers
             return Ok( res);
         }
 
-        //[HttpGet]
-        //[Route("GetMyUrls")]
-        //[Authorize]
-        //public async Task<ActionResult> GetAllMyUrls([FromQuery] int UserId)
-        //{
-        //    // use shortenService.GetMyUrls() returns a List<Creation>
-        //    // 
-        //    return Ok();
-        //}  
+       
 
-        //[HttpDelete]
-        //[Route("DeleteUrl")]
-        //[Authorize]
-        //public async Task<ActionResult> DeleteUrl([FromQuery] int UrlId)
-        //{
-        //    return Ok();
-        //}
+        [HttpDelete]
+        [Route("DeleteUrl")]
+        [Authorize]
+        public async Task<ActionResult> DeleteUrl([FromQuery] int UrlId)
+        {
+            return Ok();
+        }
 
-        
+
 
     }
 }

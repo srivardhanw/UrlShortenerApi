@@ -147,7 +147,34 @@
         }
       }
     },
-    "/api/Dashboard/myLinks": {
+    "/api/Creation/DeleteUrl": {
+      "delete": {
+        "tags": [
+          "Creation"
+        ],
+        "parameters": [
+          {
+            "name": "UrlId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
+    "/api/Dashboard/GetMyUrls": {
       "get": {
         "tags": [
           "Dashboard"

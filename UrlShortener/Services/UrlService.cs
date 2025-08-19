@@ -8,14 +8,14 @@ using UrlShortener.Utilities;
 
 namespace UrlShortener.Services
 {
-    public class ShortenService : IShortenService
+    public class UrlService : IUrlService
     {
         private readonly ICreationRepository _creationRepository;
         private readonly IAnalyticsService _analyticsService;
         private readonly IGeolocationService _geolocationService;
         private readonly IServiceProvider _serviceProvider;
         private readonly IBackgroundAnalyticsQueue _backgroundAnalyticsQueue;
-        public ShortenService(ICreationRepository creationRepository, IAnalyticsService analyticsService, IGeolocationService geolocationService, IServiceProvider serviceProvider, IBackgroundAnalyticsQueue backgroundAnalyticsQueue)
+        public UrlService(ICreationRepository creationRepository, IAnalyticsService analyticsService, IGeolocationService geolocationService, IServiceProvider serviceProvider, IBackgroundAnalyticsQueue backgroundAnalyticsQueue)
         {
             _creationRepository = creationRepository;
             _analyticsService = analyticsService;
@@ -73,6 +73,21 @@ namespace UrlShortener.Services
                 OriginalUrl = creation.OriginalUrl,
             };
             return res;
+        }
+
+        public async Task<List<MyLinksResponseDTO>> GetUrlsByUserId(int userId)
+        {
+            // call userRepo.GetUrlsById(userId)
+            var urls = await _creationRepository.GetUrlsByUserId(userId);
+            List<MyLinksResponseDTO> myLinksResponseDTOs = urls.Select(c => new MyLinksResponseDTO
+            {
+                UrlId = c.Id,
+                OriginalUrl = c.OriginalUrl,
+                ShortId = c.ShortId,
+                CreatedAt = c.CreatedAt
+            }).ToList();
+
+            return myLinksResponseDTOs;
         }
 
         

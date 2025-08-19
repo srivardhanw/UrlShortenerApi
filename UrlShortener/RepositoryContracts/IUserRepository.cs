@@ -10,5 +10,7 @@ namespace UrlShortener.RepositoryContracts
         Task<int> InsertNewUserAsync(User user);
 
         Task<User?> GetUserByUsernameOrEmailAsync(string usernameOrEmail);
+        
+
     }
 }
