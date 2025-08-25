@@ -1,4 +1,6 @@
 ﻿using AuthExample.Models;
+using Microsoft.AspNetCore.Components.Web;
+using System.ComponentModel;
 using UrlShortener.BackgroundServices;
 using UrlShortener.DTOs.Request;
 using UrlShortener.DTOs.Response;
@@ -28,6 +30,7 @@ namespace UrlShortener.Services
         {
             
             string shortId = ShortIdGenerator.GenerateShortId().Trim();
+            // should implement a collision check loop
             
             var res = new ShortResponseDTO
             {
@@ -90,6 +93,12 @@ namespace UrlShortener.Services
             return myLinksResponseDTOs;
         }
 
-        
+        public async Task<bool> IsUrlOwnedByUser(int userId, int urlId)
+        {
+            bool isOwnedByUser = await _creationRepository.IsUrlOwnedByUser(userId, urlId);
+            return isOwnedByUser;
+        }
+
+      
     }
 }

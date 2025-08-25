@@ -11,6 +11,9 @@ namespace UrlShortener.ServiceContracts
 
         public Task<List<MyLinksResponseDTO>> GetUrlsByUserId(int userId);
 
+        public Task<bool> IsUrlOwnedByUser(int userId, int urlId);
+
+        
 
     }
 }

@@ -50,7 +50,7 @@ namespace UrlShortener.Controllers
         public async Task<IActionResult> RedirectToOriginal(string ShortId)
         {
             string userAgent = Request.Headers["User-Agent"].ToString();
-            string deviceType = UserAgentHelper.GetDeviceName(userAgent);
+            string deviceType = UserAgentHelper.GetDeviceName(userAgent) ?? "unknown";
             string? ip = Request.Headers["X-Forwarded-For"].FirstOrDefault();
 
             if (string.IsNullOrEmpty(ip))

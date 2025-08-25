@@ -15,7 +15,7 @@ namespace UrlShortener.Services
             _userRepository = userRepository;
             _configuration = configuration;
         }
-        public async Task<AuthResponseDTO?> AuthenticateUserByUsernameOrEmailAndPassword(string emailOrUsername, string password)
+        public async Task<LoginResponseDTO?> AuthenticateUserByUsernameOrEmailAndPassword(string emailOrUsername, string password)
         {
            
             var user = await _userRepository.GetUserByUsernameOrEmailAsync(emailOrUsername); // get user
@@ -37,7 +37,7 @@ namespace UrlShortener.Services
                 throw new Exception("JWT secret is missing from configuration");
             }
             string JwtString = JwtHelper.GenerateJwtToken(user, secret!, 25);
-            AuthResponseDTO sessionToken = new AuthResponseDTO
+            LoginResponseDTO sessionToken = new LoginResponseDTO
             {
                 UserId = user.Id,
                 Email = user.Email,

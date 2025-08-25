@@ -27,15 +27,9 @@ namespace UrlShortener.Repositories
             
             
         }
-        public async void DeleteCreation(int CreationId)
-        {
-            throw new NotImplementedException();
-        }
+        
 
-        public async Task<List<Creation>> GetAllCreationsByUserId(int UserId)
-        {
-            throw new NotImplementedException();
-        }
+      
 
         public async Task<Creation> GetOriginalUrlFromShortId(string ShortId)
         {
@@ -56,5 +50,16 @@ namespace UrlShortener.Repositories
             List<Creation> creations = (await _dbConnection.QueryAsync<Creation>(query, new {CreatedBy =  CreatedBy})).ToList();
             return creations;
         }
+
+        public async Task<bool> IsUrlOwnedByUser(int userId, int urlId)
+        {
+            var query = @"SELECT CreatedBy FROM Creation
+                          WHERE Id = @Id";
+            var createdBy = await _dbConnection.QueryFirstOrDefaultAsync<int>(query, new { Id = urlId });
+            return (createdBy == userId)? true: false;
+        }
+
+       
+
     }
 }

@@ -5,6 +5,6 @@ namespace UrlShortener.ServiceContracts
 {
     public interface ILoginService
     {
-        Task<AuthResponseDTO?> AuthenticateUserByUsernameOrEmailAndPassword(string username, string password);
+        Task<LoginResponseDTO?> AuthenticateUserByUsernameOrEmailAndPassword(string username, string password);
     }
 }

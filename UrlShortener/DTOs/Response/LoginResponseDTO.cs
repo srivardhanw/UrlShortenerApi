@@ -2,7 +2,7 @@
 
 namespace UrlShortener.DTOs.Response
 {
-    public class AuthResponseDTO
+    public class LoginResponseDTO
     {
         public int UserId { get; set; }
         public string Username { get; set; } = string.Empty;

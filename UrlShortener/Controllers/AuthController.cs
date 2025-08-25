@@ -39,7 +39,7 @@ namespace AuthExample.Controllers
 
         [HttpPost]
         [Route("login")]
-        
+
         public async Task<ActionResult> HandleLogin([FromBody] LoginDTO user)
         {
            

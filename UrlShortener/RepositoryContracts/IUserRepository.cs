@@ -8,9 +8,7 @@ namespace UrlShortener.RepositoryContracts
     {
         Task<bool> IsUserExistsAsync(string username);
         Task<int> InsertNewUserAsync(User user);
-
         Task<User?> GetUserByUsernameOrEmailAsync(string usernameOrEmail);
-        
 
     }
 }
