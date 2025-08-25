@@ -27,10 +27,6 @@ namespace UrlShortener.Repositories
             
             
         }
-        
-
-      
-
         public async Task<Creation> GetOriginalUrlFromShortId(string ShortId)
         {
             var query = @"SELECT * FROM Creation
@@ -56,10 +52,7 @@ namespace UrlShortener.Repositories
             var query = @"SELECT CreatedBy FROM Creation
                           WHERE Id = @Id";
             var createdBy = await _dbConnection.QueryFirstOrDefaultAsync<int>(query, new { Id = urlId });
-            return (createdBy == userId)? true: false;
+            return (createdBy == userId) ? true : false;
         }
-
-       
-
     }
 }

@@ -34,7 +34,7 @@ namespace UrlShortener.Controllers
                 var res = await _urlService.GetUrlsByUserId(userId);
                 return Ok(res);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 BadRequest(ex.Message);
             }
@@ -46,7 +46,7 @@ namespace UrlShortener.Controllers
         [Authorize]
         public async Task<ActionResult> GetClickAnalytics(int UrlId)
         {
-            int userId = int.Parse(User.Claims.First(c =>c.Type == ClaimTypes.NameIdentifier).Value);
+            int userId = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             try
             {
                 bool isUrlOwnedByUser = await _urlService.IsUrlOwnedByUser(userId, UrlId);
@@ -63,7 +63,7 @@ namespace UrlShortener.Controllers
                 BadRequest(ex.Message);
             }
             return BadRequest();
-           
+
         }
 
         [HttpGet]
@@ -87,12 +87,38 @@ namespace UrlShortener.Controllers
                     return Ok(series);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 BadRequest(ex.Message);
             }
             return BadRequest();
-            //throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        [Route("Donut")]
+        [Authorize]
+        public async Task<ActionResult> GetDonutAnalytics([FromQuery] DonutRequestDTO donutRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(value => value.Errors).Select(err => err.ErrorMessage).ToList();
+                return BadRequest(new { errors });
+            }
+            int userId = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            try
+            {
+                bool isUrlOwnedByUser = await _urlService.IsUrlOwnedByUser(userId, donutRequest.UrlId);
+                if (isUrlOwnedByUser)
+                {
+                    var donut = await _analyticsService.GetDonutByUrlId(donutRequest);
+                    return Ok(donut);
+                }
+            }
+            catch (Exception ex)
+            {
+                BadRequest(ex.Message);
+            }
+            return BadRequest();
         }
     }
 }

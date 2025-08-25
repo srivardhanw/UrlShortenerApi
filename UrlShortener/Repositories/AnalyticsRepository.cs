@@ -32,9 +32,6 @@ namespace UrlShortener.Repositories
                 ClickedAt = analytics.ClickedAt,
                 UrlId = analytics.UrlId
             });
-
-
-
         }
 
         public async Task<ClickAnalytics> GetClicksByUrlId(int urlId)
@@ -77,19 +74,19 @@ namespace UrlShortener.Repositories
 
         public async Task<Donut> GetDonutByUrlId(int UrlId, DateTime StartDate, DateTime EndDate)
         {
-            var TotalCountQuery = @" SELECT COUNT(*) FROM Analytics AS a
+            var TotalCountQuery = @" SELECT COUNT(*) AS TotalClicks FROM Analytics AS a
                                     WHERE a.UrlId = @UrlId AND 
                                     a.ClickedAt >= @StartDate AND 
                                     a.ClickedAt <  @EndDate";
 
-            var deviceCompositionQuery = @"SELECT dtm.TypeName, COUNT(*) AS TotalCountPerDevice FROM Analytics AS a
+            var deviceCompositionQuery = @"SELECT dtm.TypeName, COUNT(*) AS TotalClicksByDevice FROM Analytics AS a
                         JOIN DeviceTypeMaster AS dtm ON a.DeviceTypeId = dtm.TypeId
                         WHERE a.UrlId = @UrlId 
 	                        AND a.ClickedAt >= @StartDate 
 	                        AND a.ClickedAt <  @EndDate
                         GROUP BY dtm.TypeName";
             Donut donut = new Donut();
-            donut.TotalCount = await _dbConnection.QuerySingleAsync<int>(TotalCountQuery, new { UrlId = UrlId, StartDate = StartDate, EndDate = EndDate });
+            donut.TotalClicks = await _dbConnection.QuerySingleAsync<int>(TotalCountQuery, new { UrlId = UrlId, StartDate = StartDate, EndDate = EndDate });
             donut.DeviceComposition = (await _dbConnection.QueryAsync<DeviceComposition>(deviceCompositionQuery, new { UrlId = UrlId, StartDate = StartDate, EndDate = EndDate })).ToList();
             return donut;
         }

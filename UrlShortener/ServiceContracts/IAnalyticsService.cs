@@ -11,5 +11,7 @@ namespace UrlShortener.ServiceContracts
         public Task<ClicksResponseDTO> GetClicksByUrlId(int urlId);
 
         public Task<SeriesResponseDTO> GetLineByUrlId(SeriesRequestDTO seriesRequest);
+
+        public Task<DonutResponseDTO> GetDonutByUrlId(DonutRequestDTO donutRequest);
     }
 }

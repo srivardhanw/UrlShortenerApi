@@ -49,9 +49,5 @@ namespace UrlShortener.Repositories
             var user = await _dbConnection.QueryFirstOrDefaultAsync<User>(query, new { Input = usernameOrEmail });
             return user;
         }
-
-
-              
-       
     }
 }

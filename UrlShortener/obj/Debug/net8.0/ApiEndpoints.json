@@ -97,6 +97,32 @@
   },
   {
     "ContainingType": "UrlShortener.Controllers.DashboardController",
+    "Method": "GetDonutAnalytics",
+    "RelativePath": "api/Dashboard/Donut",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UrlId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "StartDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "EndDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UrlShortener.Controllers.DashboardController",
     "Method": "GetClickAnalytics",
     "RelativePath": "api/Dashboard/GetClicks{UrlId}",
     "HttpMethod": "GET",

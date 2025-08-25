@@ -60,5 +60,27 @@ namespace UrlShortener.Services
 
             return res;
         }
+
+        public async Task<DonutResponseDTO> GetDonutByUrlId(DonutRequestDTO donutRequest)
+        {
+            var donut = await _analyticsRepository.GetDonutByUrlId(donutRequest.UrlId, donutRequest.StartDate, donutRequest.EndDate);
+            DonutResponseDTO donutResponse = new DonutResponseDTO
+            {
+                TotalClicks = donut.TotalClicks,
+                DeviceComposition = new DeviceCompositionUnit
+                {
+                    Desktop = donut.DeviceComposition.FirstOrDefault(dc => dc.TypeName == "desktop")?.TotalClicksByDevice ?? 0,
+
+                    Mobile = donut.DeviceComposition.FirstOrDefault(dc => dc.TypeName == "mobile")?.TotalClicksByDevice ?? 0,
+
+                    Tablet = donut.DeviceComposition.FirstOrDefault(dc => dc.TypeName == "tablet")?.TotalClicksByDevice ?? 0,
+
+                    EReader = donut.DeviceComposition.FirstOrDefault(dc => dc.TypeName == "e-reader")?.TotalClicksByDevice ?? 0,
+
+                    Unknown = donut.DeviceComposition.FirstOrDefault(dc => dc.TypeName == "unknown")?.TotalClicksByDevice ?? 0,
+                } 
+            };
+            return donutResponse;
+        }
     }
 }
